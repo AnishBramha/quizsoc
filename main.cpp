@@ -1,5 +1,4 @@
 #include "main.hpp"
-#include "ui.hpp"
 
 wxIMPLEMENT_APP(App);
 
