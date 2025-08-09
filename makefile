@@ -13,7 +13,7 @@ endif
 
 TARGET = app$(EXEC_EXT)
 
-SRCS = main.cpp setup_ui.cpp 
+SRCS = main.cpp setup_ui.cpp files.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
@@ -29,7 +29,8 @@ $(TARGET): $(OBJS)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 main.o: main.hpp setup_ui.hpp
-setup_ui.o: setup_ui.hpp
+setup_ui.o: setup_ui.hpp files.hpp
+files.o: files.hpp
 
 clean:
 	$(RM) $(OBJS)

@@ -1,6 +1,13 @@
 .DS_Store
+
 app
 *.exe
 *.o
+
+.settings
+.scoring
+
+*.txt
+
 
 

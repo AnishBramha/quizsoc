@@ -5,6 +5,8 @@
 #include <wx/statbmp.h>
 #include <wx/statline.h>
 #include <wx/spinctrl.h>
+#include "quiz_ui.hpp"
+#include "files.hpp"
 
 class startupFrame : public wxFrame {
 
@@ -29,7 +31,28 @@ class mainFrame : public wxFrame {
 
         void switchToHome(wxCommandEvent& evt);
         void showTeams(wxCommandEvent& evt);
-        void scoreChooser(wxWindow* parent, wxSizer* sizer, const wxString& label);
+        wxSpinCtrl* scoreChooser(wxWindow* parent, wxSizer* sizer, const wxString& label);
+
+        wxSpinCtrl* pplus;
+        wxSpinCtrl* pminus;
+        wxSpinCtrl* bplus;
+        wxSpinCtrl* bminus;
+
+        wxSpinCtrl* buzzplus;
+        wxSpinCtrl* buzzminus;
+        wxSpinCtrl* challengeplus;
+        wxSpinCtrl* challengeminus;
+        wxSpinCtrl* challengeWrong;
+
+        wxSpinCtrl* plusCorrect;
+        wxSpinCtrl* plusWrong;
+        wxSpinCtrl* plusTeams;
+        wxSpinCtrl* plusPoints;
+        wxSpinCtrl* minusCorrect;
+        wxSpinCtrl* minusWrong;
+        wxSpinCtrl* minusTeams;
+        wxSpinCtrl* minusPoints;
+        wxSpinCtrl* moreWrong;
 };
 
 class teamFrame : public wxFrame {
@@ -59,55 +82,6 @@ class aboutFrame : public wxFrame {
 
         aboutFrame(const wxString& title);
 };
-
-class roundFrame : public wxFrame {
-
-    public:
-
-        roundFrame(const wxString& title);
-
-        virtual ~roundFrame() = default;
-
-    private:
-
-        void switchToHome(wxCommandEvent& evt);
-        virtual void switchRound(wxCommandEvent& evt, const wxString& roundName) const = 0;
-
-        /* ROUND NAMES
-         * -----------
-         * Pounce/Bounce
-         * Buzzer with Challeneges
-         * Differential Scoring
-        */
-
-        virtual void onSave(wxCommandEvent& evt) const = 0;
-        virtual void onSaveAs(wxCommandEvent& evt) const = 0;
-        virtual void save(const wxString& filepath) const = 0;
-        virtual void saveAs(void) const = 0;
-};
-
-class pounceBounceFrame : public roundFrame {
-
-    public:
-
-        pounceBounceFrame(const wxString& title);
-};
-
-class buzzerChallenges : public roundFrame {
-
-    public:
-
-        buzzerChallenges(const wxString& title);
-};
-
-class differentialScoring : public roundFrame {
-
-    public:
-
-        differentialScoring(const wxString& title);
-};
-
-
 
 
 

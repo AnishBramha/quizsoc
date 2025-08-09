@@ -1,4 +1,5 @@
 #include "setup_ui.hpp"
+#include <chrono>
 
 /*
 * *************
@@ -103,14 +104,14 @@ mainFrame::mainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title, 
     mainSizer->Add(headingPounceBounce, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 10);
 
     wxBoxSizer* pounceBounceSizer1 = new wxBoxSizer(wxHORIZONTAL);
-    scoreChooser(scrollable, pounceBounceSizer1, "(+)Pounce");
-    scoreChooser(scrollable, pounceBounceSizer1, "(-)Pounce");
+    pplus = scoreChooser(scrollable, pounceBounceSizer1, "(+)Pounce");
+    pminus = scoreChooser(scrollable, pounceBounceSizer1, "(-)Pounce");
     mainSizer->Add(pounceBounceSizer1, 0, wxALIGN_CENTER_HORIZONTAL | wxLEFT | wxRIGHT, 20);
     mainSizer->AddSpacer(10);
 
     wxBoxSizer* pounceBounceSizer2 = new wxBoxSizer(wxHORIZONTAL);
-    scoreChooser(scrollable, pounceBounceSizer2, "(+)Bounce");
-    scoreChooser(scrollable, pounceBounceSizer2, "(-)Bounce");
+    bplus = scoreChooser(scrollable, pounceBounceSizer2, "(+)Bounce");
+    bminus = scoreChooser(scrollable, pounceBounceSizer2, "(-)Bounce");
     mainSizer->Add(pounceBounceSizer2, 0, wxALIGN_CENTER_HORIZONTAL | wxLEFT | wxRIGHT, 20);
 
     
@@ -121,15 +122,15 @@ mainFrame::mainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title, 
     mainSizer->Add(headingBuzzerChallenges, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 10);
 
     wxBoxSizer* buzzerChallengesSizer1 = new wxBoxSizer(wxHORIZONTAL);
-    scoreChooser(scrollable, buzzerChallengesSizer1, "(+)Buzz");
-    scoreChooser(scrollable, buzzerChallengesSizer1, "(-)Buzz");
+    buzzplus = scoreChooser(scrollable, buzzerChallengesSizer1, "(+)Buzz");
+    buzzminus = scoreChooser(scrollable, buzzerChallengesSizer1, "(-)Buzz");
     mainSizer->Add(buzzerChallengesSizer1, 0, wxALIGN_CENTER_HORIZONTAL | wxLEFT | wxRIGHT, 20);
     mainSizer->AddSpacer(20);
 
     wxBoxSizer* buzzerChallengesSizer2 = new wxBoxSizer(wxHORIZONTAL);
-    scoreChooser(scrollable, buzzerChallengesSizer2, "(+)Challenge");
-    scoreChooser(scrollable, buzzerChallengesSizer2, "(-)Challenge");
-    scoreChooser(scrollable, buzzerChallengesSizer2, "(-)Agreeing with wrong challenge");
+    challengeplus = scoreChooser(scrollable, buzzerChallengesSizer2, "(+)Challenge");
+    challengeminus = scoreChooser(scrollable, buzzerChallengesSizer2, "(-)Challenge");
+    challengeWrong = scoreChooser(scrollable, buzzerChallengesSizer2, "(-)Agreeing with wrong challenge");
     mainSizer->Add(buzzerChallengesSizer2, 0, wxALIGN_CENTER_HORIZONTAL | wxLEFT | wxRIGHT, 20);
     
 
@@ -140,23 +141,23 @@ mainFrame::mainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title, 
     mainSizer->Add(headingDifferentialScoring, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 10);
 
     wxBoxSizer* differentialScoringSizer1 = new wxBoxSizer(wxHORIZONTAL);
-    scoreChooser(scrollable, differentialScoringSizer1, "(+) = (Correct Answers ×");
-    scoreChooser(scrollable, differentialScoringSizer1, "+ Wrong Answers ×");
-    scoreChooser(scrollable, differentialScoringSizer1, "+ Number of Teams ×");
-    scoreChooser(scrollable, differentialScoringSizer1, ") × Points:");
+    plusCorrect = scoreChooser(scrollable, differentialScoringSizer1, "(+) = (Correct Answers ×");
+    plusWrong = scoreChooser(scrollable, differentialScoringSizer1, "+ Wrong Answers ×");
+    plusTeams = scoreChooser(scrollable, differentialScoringSizer1, "+ Number of Teams ×");
+    plusPoints = scoreChooser(scrollable, differentialScoringSizer1, ") × Points:");
     mainSizer->Add(differentialScoringSizer1, 0, wxALIGN_CENTER_HORIZONTAL | wxLEFT | wxRIGHT, 20);
     mainSizer->AddSpacer(10);
 
     wxBoxSizer* differentialScoringSizer2 = new wxBoxSizer(wxHORIZONTAL);
-    scoreChooser(scrollable, differentialScoringSizer2, "(-) = (Correct Answers ×");
-    scoreChooser(scrollable, differentialScoringSizer2, "+ Wrong Answers ×");
-    scoreChooser(scrollable, differentialScoringSizer2, "+ Number of Teams ×");
-    scoreChooser(scrollable, differentialScoringSizer2, ") × Points:");
+    minusCorrect = scoreChooser(scrollable, differentialScoringSizer2, "(-) = (Correct Answers ×");
+    minusWrong = scoreChooser(scrollable, differentialScoringSizer2, "+ Wrong Answers ×");
+    minusTeams = scoreChooser(scrollable, differentialScoringSizer2, "+ Number of Teams ×");
+    minusPoints = scoreChooser(scrollable, differentialScoringSizer2, ") × Points:");
     mainSizer->Add(differentialScoringSizer2, 0, wxALIGN_CENTER_HORIZONTAL | wxLEFT | wxRIGHT, 20);
     mainSizer->AddSpacer(10);
 
     wxBoxSizer* differentialScoringSizer3 = new wxBoxSizer(wxHORIZONTAL);
-    scoreChooser(scrollable, differentialScoringSizer3, "If more wrong answers: (-)");
+    moreWrong = scoreChooser(scrollable, differentialScoringSizer3, "If more wrong answers: (-)");
     mainSizer->Add(differentialScoringSizer3, 0, wxALIGN_CENTER_HORIZONTAL | wxLEFT | wxRIGHT, 20);
     mainSizer->AddSpacer(10);
 
@@ -188,6 +189,32 @@ mainFrame::mainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title, 
 
 void mainFrame::showTeams(wxCommandEvent& evt) {
 
+    int pb[4];
+    pb[0] = this->pplus->GetValue();
+    pb[1] = this->pminus->GetValue();
+    pb[2] = this->bplus->GetValue();
+    pb[3] = this->bminus->GetValue();
+
+    int bc[5];
+    bc[0] = this->buzzplus->GetValue();
+    bc[1] = this->buzzminus->GetValue();
+    bc[2] = this->challengeplus->GetValue();
+    bc[3] = this->challengeminus->GetValue();
+    bc[4] = this->challengeWrong->GetValue();
+
+    int ds[9];
+    ds[0] = this->plusCorrect->GetValue();
+    ds[1] = this->plusWrong->GetValue();
+    ds[2] = this->plusTeams->GetValue();
+    ds[3] = this->plusPoints->GetValue();
+    ds[4] = this->minusCorrect->GetValue();
+    ds[5] = this->minusWrong->GetValue();
+    ds[6] = this->minusTeams->GetValue();
+    ds[7] = this->minusPoints->GetValue();
+    ds[8] = this->moreWrong->GetValue();
+
+    saveScoring(pb, bc, ds);
+
     teamFrame* frame = new teamFrame("Configure teams and rounds");
     frame->SetClientSize(800,600);
     frame->Center();
@@ -197,13 +224,15 @@ void mainFrame::showTeams(wxCommandEvent& evt) {
 }
 
 
-void mainFrame::scoreChooser(wxWindow* parent, wxSizer* sizer, const wxString& label) {
+wxSpinCtrl* mainFrame::scoreChooser(wxWindow* parent, wxSizer* sizer, const wxString& label) {
 
     sizer->Add(new wxStaticText(parent, wxID_ANY, label), 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
 
     wxSpinCtrl* score = new wxSpinCtrl(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(45, -1), wxSP_ARROW_KEYS | wxSP_WRAP, -100, 100, 0);
 
     sizer->Add(score, 0, wxRIGHT, 15);
+
+    return score;
 }
 
 void mainFrame::switchToHome(wxCommandEvent& evt) {
