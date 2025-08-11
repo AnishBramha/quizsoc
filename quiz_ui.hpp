@@ -1,6 +1,9 @@
 #pragma once
 
 #include <wx/wx.h>
+#include <vector>
+#include "files.hpp"
+#include "setup_ui.hpp"
 
 class roundFrame : public wxFrame {
 
@@ -10,12 +13,6 @@ class roundFrame : public wxFrame {
 
         virtual ~roundFrame() = default;
 
-    private:
-
-        void switchToHome(wxCommandEvent& evt);
-        virtual void switchRound(wxCommandEvent& evt, const wxString& roundName) const = 0;
-        void showScores(wxCommandEvent& evt);
-
         /* ROUND NAMES
          * -----------
          * Pounce/Bounce
@@ -23,10 +20,25 @@ class roundFrame : public wxFrame {
          * Differential Scoring
         */
 
-        virtual void onSave(wxCommandEvent& evt) const = 0;
-        virtual void onSaveAs(wxCommandEvent& evt) const = 0;
-        virtual void save(const wxString& filepath) const = 0;
-        virtual void saveAs(void) const = 0;
+    protected:
+
+        void switchToHome(wxCommandEvent& evt);
+        void showScores(wxCommandEvent& evt);
+
+        virtual void onSave(wxCommandEvent& evt) = 0;
+        virtual void onSaveAs(wxCommandEvent& evt) = 0;
+        virtual void save(const wxString& filepath) = 0;
+        virtual void saveAs(void) = 0;
+
+        int nTeams, nRounds, questions;
+        int pplus, pminus, bplus, bminus;
+        int buzzplus, buzzminus, challengeplus, challengeminus, wrong;
+        int correctplus, correctminus, correctteams, correctpoints;
+        int wrongplus, wrongminus, wrongteams, wrongpoints;
+        int morewrong;
+
+        std::vector<int> roundType;
+        std::vector<std::string> teamName;
 };
 
 class pounceBounceFrame : public roundFrame {
@@ -34,6 +46,10 @@ class pounceBounceFrame : public roundFrame {
     public:
 
         pounceBounceFrame(const wxString& title);
+
+    private:
+
+        
 };
 
 class buzzerChallenges : public roundFrame {

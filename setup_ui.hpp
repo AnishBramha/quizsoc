@@ -5,6 +5,7 @@
 #include <wx/statbmp.h>
 #include <wx/statline.h>
 #include <wx/spinctrl.h>
+#include <vector>
 #include "quiz_ui.hpp"
 #include "files.hpp"
 
@@ -74,6 +75,9 @@ class teamFrame : public wxFrame {
         wxBoxSizer* controlSizer;
 
         wxScrolled<wxPanel>* scrollable;
+
+        std::vector<wxChoice*> roundType;
+        std::vector<wxTextCtrl*> teamName;
 };
 
 class aboutFrame : public wxFrame {

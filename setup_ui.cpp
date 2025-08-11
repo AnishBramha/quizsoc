@@ -1,5 +1,4 @@
 #include "setup_ui.hpp"
-#include <chrono>
 
 /*
 * *************
@@ -282,7 +281,7 @@ teamFrame::teamFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) 
     this->controlSizer->Add(this->rounds, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
 
     this->controlSizer->Add(questionsPrompt, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-    this->controlSizer->Add(this->questions, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+    
 
     this->controlSizer->Add(customize, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
 
@@ -358,10 +357,14 @@ void teamFrame::showTeamChooser(wxCommandEvent& evt) {
             roundType->Append("Buzzer with Challenges");
             roundType->Append("Differential Scoring");
 
+            roundType->SetSelection(0);
+
             roundSizer->Add(nRound, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
             roundSizer->Add(roundType, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, 5);
 
             this->mainSizer->Add(roundSizer, 0, wxEXPAND | wxALL, 5);
+
+            this->roundType.push_back(roundType);
         }
 
         this->mainSizer->Add(new wxStaticLine(this->scrollable), 0, wxEXPAND | wxALL, 20);
@@ -378,10 +381,14 @@ void teamFrame::showTeamChooser(wxCommandEvent& evt) {
 
             wxTextCtrl* teamName = new wxTextCtrl(this->scrollable, wxID_ANY, "");
 
+            teamName->SetValue("-");
+
             teamSizer->Add(nTeam, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
             teamSizer->Add(teamName, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxLEFT, 5);
 
             this->mainSizer->Add(teamSizer, 0, wxEXPAND | wxALL, 5);
+
+            this->teamName.push_back(teamName);
         }
 
         this->scrollable->Layout();
