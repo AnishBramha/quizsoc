@@ -9,6 +9,8 @@
 #include "quiz_ui.hpp"
 #include "files.hpp"
 
+enum {POUNCE_BOUNCE, BUZZER_WITH_CHALLENGES, DIFFERENTIAL_SCORING};
+
 class startupFrame : public wxFrame {
 
     public:
@@ -66,6 +68,7 @@ class teamFrame : public wxFrame {
         
         void showTeamChooser(wxCommandEvent& evt);
         void switchToHome(wxCommandEvent& evt);
+        void startQuiz(wxCommandEvent& evt);
 
         wxSpinCtrl* teams;
         wxSpinCtrl* rounds;

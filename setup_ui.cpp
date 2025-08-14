@@ -1,3 +1,5 @@
+#include "files.hpp"
+#include "quiz_ui.hpp"
 #include "setup_ui.hpp"
 
 /*
@@ -281,7 +283,7 @@ teamFrame::teamFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) 
     this->controlSizer->Add(this->rounds, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
 
     this->controlSizer->Add(questionsPrompt, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-    
+    this->controlSizer->Add(this->questions, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
 
     this->controlSizer->Add(customize, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
 
@@ -316,8 +318,8 @@ teamFrame::teamFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) 
     this->SetSizerAndFit(masterSizer);
     this->Layout();
 
+    start->Bind(wxEVT_BUTTON, &teamFrame::startQuiz, this);
     cancel->Bind(wxEVT_BUTTON, &teamFrame::switchToHome, this);
-
 }
 
 
@@ -417,5 +419,39 @@ void teamFrame::switchToHome(wxCommandEvent& evt) {
     this->Close();
 }
 
+
+void teamFrame::startQuiz(wxCommandEvent& evt) {
+
+    int nTeams = this->teams->GetValue();
+    int nRounds = this->rounds->GetValue();
+    int nQuestions = this->questions->GetValue();
+
+    std::vector<int> roundType;
+    
+    for (int i = 0; i < nRounds; i++) {
+
+        int choice = this->roundType[i]->GetSelection();
+
+        roundType.push_back(choice);
+    }
+
+    std::vector<std::string> teamName;
+
+    for (int i = 0; i < nTeams; i++) {
+
+        std::string name = this->teamName[i]->GetValue().ToStdString();
+
+        teamName.push_back(name);
+    }
+
+    saveTeamsAndRounds(nTeams, nRounds, nQuestions, roundType, teamName);
+
+    pounceBounceFrame* frame = new pounceBounceFrame("Pounce/Bounce");
+    frame->SetClientSize(500, 600);
+    frame->Center();
+    frame->Show();
+
+    this->Close();
+}
 
 

@@ -24,12 +24,12 @@ class roundFrame : public wxFrame {
 
         void switchToHome(wxCommandEvent& evt);
         void showScores(wxCommandEvent& evt);
-
+/*
         virtual void onSave(wxCommandEvent& evt) = 0;
         virtual void onSaveAs(wxCommandEvent& evt) = 0;
         virtual void save(const wxString& filepath) = 0;
         virtual void saveAs(void) = 0;
-
+*/
         int nTeams, nRounds, questions;
         int pplus, pminus, bplus, bminus;
         int buzzplus, buzzminus, challengeplus, challengeminus, wrong;

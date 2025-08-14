@@ -34,7 +34,7 @@ void loadScoring(int &pplus, int &pminus, int &bplus, int &bminus, int &buzzplus
     return;
 }
 
-void saveTeamsAndRounds(int nTeams, int nRounds, int nQuestions, int roundType[], std::string teamName[]) {
+void saveTeamsAndRounds(int nTeams, int nRounds, int nQuestions, std::vector<int>& roundType, std::vector<std::string>& teamName) {
 
     std::fstream fout;
     fout.open(".settings", std::ios::out);
