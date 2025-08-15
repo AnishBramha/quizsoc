@@ -73,6 +73,8 @@ class teamFrame : public wxFrame {
         wxSpinCtrl* teams;
         wxSpinCtrl* rounds;
         wxSpinCtrl* questions;
+
+        wxButton* start;
        
         wxBoxSizer* mainSizer;
         wxBoxSizer* controlSizer;

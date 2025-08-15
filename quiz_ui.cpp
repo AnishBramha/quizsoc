@@ -17,9 +17,9 @@ morewrong(0) {
 
 void roundFrame::switchToHome(wxCommandEvent& evt) {
 
-    int opt = wxMessageBox("Are you sure you want to exit?", "Exit quiz", wxOK | wxCANCEL | wxICON_WARNING);
+    wxMessageDialog* warn = new wxMessageDialog(this, "Are you sure you want to exit?", "Exit quiz", wxYES_NO | wxICON_WARNING);
 
-    if (opt == wxID_OK) {
+    if (warn->ShowModal() == wxID_YES) {
 
         startupFrame* frame = new startupFrame("QuizSoc Home");
 
@@ -32,7 +32,6 @@ void roundFrame::switchToHome(wxCommandEvent& evt) {
 
     return;
 }
-
 
 
 pounceBounceFrame::pounceBounceFrame(const wxString& title) : roundFrame(title) {
@@ -149,6 +148,8 @@ pounceBounceFrame::pounceBounceFrame(const wxString& title) : roundFrame(title) 
 
     scrollable->FitInside();
     scrollable->SetScrollRate(5,5);
+
+    quit->Bind(wxEVT_BUTTON, &roundFrame::switchToHome, this);
 
     this->SetSizerAndFit(masterSizer);
     this->Layout();

@@ -251,6 +251,7 @@ void mainFrame::switchToHome(wxCommandEvent& evt) {
  * ***************************
  * TEAM & ROUND SELECTOR FRAME
  * ***************************
+
 */
 
 teamFrame::teamFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) {
@@ -300,11 +301,12 @@ teamFrame::teamFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) 
 
 
     wxButton* cancel = new wxButton(exitPanel, wxID_ANY, "Cancel");
-    wxButton* start = new wxButton(exitPanel, wxID_ANY, "Start");
+    this->start = new wxButton(exitPanel, wxID_ANY, "Start");
+    this->start->Disable();
 
     exitSizer->Add(cancel, 0, wxEXPAND | wxALL, 10);
     exitSizer->AddStretchSpacer(1);
-    exitSizer->Add(start, 0, wxEXPAND | wxALL, 10);
+    exitSizer->Add(this->start, 0, wxEXPAND | wxALL, 10);
 
     exitPanel->SetSizerAndFit(exitSizer);
 
@@ -318,7 +320,7 @@ teamFrame::teamFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) 
     this->SetSizerAndFit(masterSizer);
     this->Layout();
 
-    start->Bind(wxEVT_BUTTON, &teamFrame::startQuiz, this);
+    this->start->Bind(wxEVT_BUTTON, &teamFrame::startQuiz, this);
     cancel->Bind(wxEVT_BUTTON, &teamFrame::switchToHome, this);
 }
 
@@ -336,6 +338,7 @@ void teamFrame::showTeamChooser(wxCommandEvent& evt) {
         this->rounds->Disable();
         this->teams->Disable();
         this->questions->Disable();
+        this->start->Enable();
 
         if (button)
             button->SetLabel("Reset");

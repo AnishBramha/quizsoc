@@ -2,7 +2,7 @@
 
 void saveScoring(int pounceBounce[4], int buzzerWithChallenges[5], int differentialScoring[9]) {
 
-    std::fstream fout;
+    std::ofstream fout;
     fout.open(".scoring", std::ios::out);
 
     for (int i = 0; i < 3; i++)
@@ -23,7 +23,7 @@ void saveScoring(int pounceBounce[4], int buzzerWithChallenges[5], int different
 
 void loadScoring(int &pplus, int &pminus, int &bplus, int &bminus, int &buzzplus, int &buzzminus, int &challengeplus, int &challengeminus, int &wrong, int &correctplus, int &correctminus, int &correctteams, int &correctpoints, int &wrongplus, int &wrongminus, int &wrongteams, int& wrongpoints, int &morewrong) {
 
-    std::fstream fin;
+    std::ifstream fin;
     fin.open(".scoring", std::ios::in);
 
     fin >> pplus >> pminus >> bplus >> bminus;
@@ -36,7 +36,7 @@ void loadScoring(int &pplus, int &pminus, int &bplus, int &bminus, int &buzzplus
 
 void saveTeamsAndRounds(int nTeams, int nRounds, int nQuestions, std::vector<int>& roundType, std::vector<std::string>& teamName) {
 
-    std::fstream fout;
+    std::ofstream fout;
     fout.open(".settings", std::ios::out);
 
     fout << nTeams << " " << nRounds << " " << nQuestions << "\n";
@@ -54,7 +54,7 @@ void saveTeamsAndRounds(int nTeams, int nRounds, int nQuestions, std::vector<int
 
 void loadTeamsAndRounds(int &nTeams, int &nRounds, int &questions, std::vector<int> &roundType, std::vector<std::string> &teamName) {
 
-    std::fstream fin;
+    std::ifstream fin;
     fin.open(".settings", std::ios::in);
 
     fin >> nTeams >> nRounds >> questions;
@@ -79,4 +79,18 @@ void loadTeamsAndRounds(int &nTeams, int &nRounds, int &questions, std::vector<i
     return;
 }
 
+
+void saveScores(int roundNum, int qNum, std::vector<std::pair<std::string,int>>& teamScores) {
+
+    std::ofstream fout;
+    fout.open("scoreboard.csv", std::ios::app);
+
+    fout << roundNum << "," << qNum << ",";
+    
+    for (const auto& nameScore : teamScores)
+        fout << "(\"" << nameScore.first << "\"$" << nameScore.second << "),";
+    fout << "\n";
+
+    fout.close();
+}
 

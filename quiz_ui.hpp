@@ -15,21 +15,16 @@ class roundFrame : public wxFrame {
 
         /* ROUND NAMES
          * -----------
-         * Pounce/Bounce
-         * Buzzer with Challeneges
-         * Differential Scoring
+         * 0. Pounce/Bounce
+         * 1. Buzzer with Challeneges
+         * 2. Differential Scoring
         */
-
-    protected:
 
         void switchToHome(wxCommandEvent& evt);
         void showScores(wxCommandEvent& evt);
-/*
-        virtual void onSave(wxCommandEvent& evt) = 0;
-        virtual void onSaveAs(wxCommandEvent& evt) = 0;
-        virtual void save(const wxString& filepath) = 0;
-        virtual void saveAs(void) = 0;
-*/
+
+    protected:
+
         int nTeams, nRounds, questions;
         int pplus, pminus, bplus, bminus;
         int buzzplus, buzzminus, challengeplus, challengeminus, wrong;
@@ -48,7 +43,6 @@ class pounceBounceFrame : public roundFrame {
         pounceBounceFrame(const wxString& title);
 
     private:
-
         
 };
 
